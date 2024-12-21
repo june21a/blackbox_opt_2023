@@ -15,9 +15,9 @@ def save_yaml(data, yml_path):
         yaml.safe_dump(data, yml_file)
 
 
-def predict_and_submit(y_pred, path_to_submission_csv, path_to_result_csv, y_scaler=None):
+def transform_and_submit(y_pred, path_to_submission_csv, path_to_result_csv, y_scaler, preprocess_target):
     # 예측값을 필요시 역변환하고, 이를 제출파일로 만들어 저장
-    if y_scaler is not None:
+    if preprocess_target:
         try:
             y_pred = y_scaler.inverse_transform(y_pred)
         except:

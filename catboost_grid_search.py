@@ -13,7 +13,6 @@ from datetime import datetime
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--yml_path", type=str, default="./config/config.yml", help="config file path")
-    parser.add_argument("--pca_dim", type=int, default=6, help="target dimension for pca")
     parser.add_argument("--save_path", type=str, default="./train_results", help="where to save models")
     
     args = parser.parse_args()
@@ -36,7 +35,7 @@ def main():
             }
     
     # make directories
-    folder_path = os.path.join(args.save_path, f"{datetime.strftime(datetime.now(), '%Y-%m-%d_%H:%M')}_GRID_PCA{args.pca_dim}")
+    folder_path = os.path.join(args.save_path, f"{datetime.strftime(datetime.now(), '%Y-%m-%d_%H:%M')}_GRID_PCA{CFG['pca_dim']}")
     model_path = os.path.join(folder_path, 'model_params')
     os.makedirs(model_path, exist_ok=True)
     log_file_path = os.path.join(folder_path, "log.txt")
@@ -46,7 +45,7 @@ def main():
     
     # load data
     file = open(log_file_path, 'w', encoding='utf-8')
-    X_train, y_train, X_test, X_scaler, y_scaler = preprocess(args.pca_dim, CFG)
+    X_train, y_train, X_test, X_scaler, y_scaler = preprocess(CFG['pca_dim'], CFG)
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=CFG["random_seed"])
     fit_params = {'early_stopping_rounds': CFG["early_stopping_rounds"], 'eval_set':[(X_val, y_val)], "log_cout":file}
     

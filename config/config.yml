@@ -5,6 +5,7 @@ PREPROCESS_FEATURE: false
 
 DROP_OUTLIERS: true
 USE_PCA: true
+pca_dim: 7
 
 DROP_X2: false
 USE_X4X10_FEATURE: false
@@ -12,7 +13,6 @@ random_seed: 42
 
 # 경로 설정
 path_to_submission_csv: "/mnt/d/naver_boostcamp/Black_box_optimization/sample_submission.csv"
-path_to_result_csv: "./updated_submission.csv"
 path_to_train_csv: "/mnt/d/naver_boostcamp/Black_box_optimization/train.csv"
 path_to_test_csv: "/mnt/d/naver_boostcamp/Black_box_optimization/test.csv"
 
