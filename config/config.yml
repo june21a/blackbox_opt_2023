@@ -11,10 +11,10 @@ USE_X4X10_FEATURE: false
 random_seed: 42
 
 # 경로 설정
-path_to_submission_csv: "/content/drive/MyDrive/네이버 부스트캠프/daicon_black_box/data/test/sample_submission.csv"
+path_to_submission_csv: "/mnt/d/naver_boostcamp/Black_box_optimization/sample_submission.csv"
 path_to_result_csv: "./updated_submission.csv"
-path_to_train_csv: "/content/drive/MyDrive/네이버 부스트캠프/daicon_black_box/data/train/train.csv"
-path_to_test_csv: "/content/drive/MyDrive/네이버 부스트캠프/daicon_black_box/data/test/test.csv"
+path_to_train_csv: "/mnt/d/naver_boostcamp/Black_box_optimization/train.csv"
+path_to_test_csv: "/mnt/d/naver_boostcamp/Black_box_optimization/test.csv"
 
 
 # early stopping
@@ -25,7 +25,7 @@ model_params:
   depth: 6
   eval_metric: 'RMSE'
   iterations: 1000
-  l2_leaf_reg: 1e-20
+  l2_leaf_reg: !!float 1e-20
   leaf_estimation_iterations: 10
   learning_rate: 0.01
   loss_function: 'RMSE'

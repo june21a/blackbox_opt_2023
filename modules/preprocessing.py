@@ -3,7 +3,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import RobustScaler
 from sklearn.decomposition import PCA
-from utils import printer_dec
+from .utils import printer_dec
 
 def preprocess(n_components, CFG, vervose = False):
     train_df = pd.read_csv(CFG["path_to_train_csv"])

@@ -11,7 +11,7 @@ from datetime import datetime
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--yml_path", type=str, default="./module/config.yml", help="config file path")
+    parser.add_argument("--yml_path", type=str, default="./config/config.yml", help="config file path")
     parser.add_argument("--pca_dim", type=int, default=6, help="target dimension for pca")
     parser.add_argument("--save_path", type=str, default="./model_params", help="where to save models")
     
@@ -22,7 +22,7 @@ def parse_arguments():
 def main():
     args = parse_arguments()
     CFG = load_yaml(args.yml_path)
-    file_name_prefix = f"{datetime.strftime(datetime.now(), "%Y/%m/%d_%H:%M")}_{args.pca_dim}"
+    file_name_prefix = f"{datetime.strftime(datetime.now(), '%Y-%m-%d_%H:%M')}_{args.pca_dim}"
     log_file_path = f"./logs/{file_name_prefix}_grid_catboost.txt"
     
     # search space
@@ -34,8 +34,6 @@ def main():
             'leaf_estimation_iterations': [10],
             'eval_metric': ['RMSE'],
             'random_seed': [CFG["random_seed"]],
-            'logging_level': 'Verbose',
-            "log_file": log_file_path
             }
     
     # load data
@@ -60,7 +58,7 @@ def main():
     model.save_model(os.path.join(args.save_path, f"{file_name_prefix}_model.cbm"))
     print("best params\n", grid_cv.best_params_)
     
-    with open(log_file_path, 'a') as f:
+    with open(log_file_path, 'w') as f:
         f.write("\n\nbest params\n")
         json.dump(grid_cv.best_params_, f)
         f.write("\n")

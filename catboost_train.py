@@ -1,4 +1,5 @@
 import os
+import json
 import argparse
 from modules.utils import load_yaml
 from modules.preprocessing import preprocess
@@ -9,7 +10,7 @@ from datetime import datetime
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--yml_path", type=str, default="./module/config.yml", help="config file path")
+    parser.add_argument("--yml_path", type=str, default="./config/config.yml", help="config file path")
     parser.add_argument("--pca_dim", type=int, default=6, help="target dimension for pca")
     parser.add_argument("--save_path", type=str, default="./model_params", help="where to save models")
     
@@ -33,9 +34,12 @@ def main():
     CFG = load_yaml(args.yml_path)
     CFG['model_params']["random_seed"] = CFG["random_seed"]
     
-    file_name_prefix = f"{datetime.strftime(datetime.now(), "%Y/%m/%d_%H:%M")}_{args.pca_dim}"
-    log_file_path = f"./logs/{file_name_prefix}_catboost.txt"
+    # make directories
+    os.makedirs("./logs", exist_ok=True)
+    os.makedirs(args.save_path, exist_ok=True)
     
+    file_name_prefix = f"{datetime.strftime(datetime.now(), '%Y-%m-%d_%H:%M')}_{args.pca_dim}"
+    log_file_path = f"./logs/{file_name_prefix}_catboost.txt"
     
     # load data
     X_train, y_train, X_test, X_scaler, y_scaler = preprocess(args.pca_dim, CFG)
@@ -47,6 +51,9 @@ def main():
         save_path = os.path.join(args.save_path, f"{file_name_prefix}_model.cbm"),
         early_stopping_rounds=CFG["early_stopping_rounds"],
         verbose=100)
+    
+    with open(log_file_path, 'w') as f:
+        json.dump(CFG['model_params'], f)
 
 if __name__=="__main__":
     main()    
