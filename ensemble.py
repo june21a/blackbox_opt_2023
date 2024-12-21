@@ -11,7 +11,7 @@ def parse_arguments():
     return args
 
 
-def ensemble_csvs(target_folder, output_file):
+def ensemble_csvs(target_folder, output_file, id_column):
     """
     Averages the 'y' column of all CSV files in a target folder, row by row, and saves the result to a new CSV.
     
@@ -28,6 +28,7 @@ def ensemble_csvs(target_folder, output_file):
 
     # Read all CSV files and store 'y' columns in a list
     y_values = []
+    id_values = None
     for file in csv_files:
         file_path = os.path.join(target_folder, file)
         df = pd.read_csv(file_path)
@@ -35,7 +36,16 @@ def ensemble_csvs(target_folder, output_file):
         if 'y' not in df.columns:
             print(f"'y' column not found in {file}. Skipping...")
             continue
-
+        
+        # Collect the ID column if specified
+        if id_column and id_column in df.columns:
+            if id_values is None:
+                id_values = df[id_column]
+            else:
+                if not id_values.equals(df[id_column]):
+                    print(f"ID column '{id_column}' does not match across all files. Skipping {file}.")
+                    continue
+        
         y_values.append(df['y'])
 
     if not y_values:
@@ -47,6 +57,8 @@ def ensemble_csvs(target_folder, output_file):
 
     # Save the resulting ensemble to a new CSV
     output_df = pd.DataFrame({'y': y_ensemble})
+    if id_values is not None:
+        output_df.insert(0, id_column, id_values)
     output_df.to_csv(output_file, index=False)
     print(f"Ensemble results saved to {output_file}")
 
@@ -56,7 +68,7 @@ def main():
     save_file_path = os.path.join(args.save_path, "ensemble.csv")
     os.makedirs(args.save_path, exist_ok=True)
     
-    ensemble_csvs(args.target_folder, save_file_path)
+    ensemble_csvs(args.target_folder, save_file_path, "ID")
 
 if __name__=="__main__":
     main()
