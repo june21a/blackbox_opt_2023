@@ -1,0 +1,31 @@
+PREPROCESS_DATA: true
+PREPROCESS_METHOD: "z_score"  # Options: 'z_score', 'min_max', 'robust'
+PREPROCESS_TARGET: true
+PREPROCESS_FEATURE: false
+
+DROP_OUTLIERS: true
+USE_PCA: true
+
+DROP_X2: false
+USE_X4X10_FEATURE: false
+random_seed: 42
+
+# 경로 설정
+path_to_submission_csv: "/content/drive/MyDrive/네이버 부스트캠프/daicon_black_box/data/test/sample_submission.csv"
+path_to_result_csv: "./updated_submission.csv"
+path_to_train_csv: "/content/drive/MyDrive/네이버 부스트캠프/daicon_black_box/data/train/train.csv"
+path_to_test_csv: "/content/drive/MyDrive/네이버 부스트캠프/daicon_black_box/data/test/test.csv"
+
+
+# early stopping
+early_stopping_rounds: 100
+
+# model setting
+model_params:
+  depth: 6
+  eval_metric: 'RMSE'
+  iterations: 1000
+  l2_leaf_reg: 1e-20
+  leaf_estimation_iterations: 10
+  learning_rate: 0.01
+  loss_function: 'RMSE'
