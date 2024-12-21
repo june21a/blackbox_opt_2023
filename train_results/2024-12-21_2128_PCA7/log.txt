@@ -1,0 +1,12 @@
+0:	learn: 0.9963807	test: 0.9963807	test1: 0.9837542	best: 0.9837542 (0)	total: 70.9ms	remaining: 1m 10s
+100:	learn: 0.6763100	test: 0.6763100	test1: 0.6681153	best: 0.6681153 (100)	total: 301ms	remaining: 2.68s
+200:	learn: 0.6130548	test: 0.6130548	test1: 0.6104578	best: 0.6104578 (200)	total: 528ms	remaining: 2.1s
+300:	learn: 0.6009507	test: 0.6009507	test1: 0.6017675	best: 0.6017675 (300)	total: 759ms	remaining: 1.76s
+400:	learn: 0.5975459	test: 0.5975459	test1: 0.6005126	best: 0.6005126 (400)	total: 987ms	remaining: 1.47s
+500:	learn: 0.5957602	test: 0.5957602	test1: 0.6003927	best: 0.6003787 (488)	total: 1.21s	remaining: 1.21s
+Stopped by overfitting detector  (100 iterations wait)
+
+bestTest = 0.6003787391
+bestIteration = 488
+
+Shrink model to first 489 iterations.

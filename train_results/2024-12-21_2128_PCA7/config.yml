@@ -1,0 +1,23 @@
+DROP_OUTLIERS: true
+DROP_X2: false
+PREPROCESS_DATA: true
+PREPROCESS_FEATURE: false
+PREPROCESS_METHOD: z_score
+PREPROCESS_TARGET: true
+USE_PCA: true
+USE_X4X10_FEATURE: false
+early_stopping_rounds: 100
+model_params:
+  depth: 6
+  eval_metric: RMSE
+  iterations: 1000
+  l2_leaf_reg: 1.0e-20
+  leaf_estimation_iterations: 10
+  learning_rate: 0.01
+  loss_function: RMSE
+  random_seed: 42
+path_to_submission_csv: /mnt/d/naver_boostcamp/Black_box_optimization/sample_submission.csv
+path_to_test_csv: /mnt/d/naver_boostcamp/Black_box_optimization/test.csv
+path_to_train_csv: /mnt/d/naver_boostcamp/Black_box_optimization/train.csv
+pca_dim: 7
+random_seed: 42

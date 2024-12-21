@@ -8,10 +8,7 @@ __pycache__
 *.so
 
 # catboost
-train_results/
 catboost_info/
-logs/
-model_params/
 submissions/
 ensembles/
 
