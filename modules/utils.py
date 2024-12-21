@@ -10,6 +10,10 @@ def load_yaml(yml_path):
         yml_data = yaml.safe_load(yml_file)
     return yml_data
 
+def save_yaml(data, yml_path):
+    with open(yml_path, 'w') as yml_file:
+        yaml.safe_dump(data, yml_file)
+
 
 def predict_and_submit(y_pred, path_to_submission_csv, path_to_result_csv, y_scaler=None):
     # 예측값을 필요시 역변환하고, 이를 제출파일로 만들어 저장

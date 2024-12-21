@@ -8,9 +8,11 @@ __pycache__
 *.so
 
 # catboost
+train_results/
 catboost_info/
 logs/
-model_params
+model_params/
+submissions/
 
 # Distribution / packaging
 .Python
