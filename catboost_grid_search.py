@@ -33,15 +33,17 @@ def main():
             'l2_leaf_reg': np.logspace(-20, -19, 3),
             'leaf_estimation_iterations': [10],
             'eval_metric': ['RMSE'],
-            'random_seed': [CFG["random_seed"]],
+            'random_seed': [CFG["random_seed"]]
             }
     
     # load data
+    file = open(log_file_path, 'w', encoding='utf-8')
     X_train, y_train, X_test, X_scaler, y_scaler = preprocess(args.pca_dim, CFG)
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=CFG["random_seed"])
-    fit_params = {'early_stopping_rounds': CFG["early_stopping_rounds"], 'eval_set':[(X_val, y_val)]}
+    fit_params = {'early_stopping_rounds': CFG["early_stopping_rounds"], 'eval_set':[(X_val, y_val)], "log_cout":file}
     
     # grid search
+    print("searching for params space")
     model = CatBoostRegressor()
     scorer = make_scorer(mean_squared_error, greater_is_better=False)
     grid_cv = GridSearchCV(model, param_grid=params, cv=5, n_jobs=1, scoring=scorer, verbose=2)
@@ -49,14 +51,17 @@ def main():
     
     
     # save model trained from best params
+    print("fit for best params")
     model = CatBoostRegressor(**grid_cv.best_params_)
-
     model.fit(X_train, y_train,
             eval_set=[(X_train, y_train), (X_val, y_val)],
             early_stopping_rounds=CFG["early_stopping_rounds"],
-            verbose=100)
+            verbose=100,
+            log_cout=file
+            )
     model.save_model(os.path.join(args.save_path, f"{file_name_prefix}_model.cbm"))
     print("best params\n", grid_cv.best_params_)
+    file.close()
     
     with open(log_file_path, 'w') as f:
         f.write("\n\nbest params\n")

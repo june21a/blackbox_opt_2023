@@ -18,14 +18,18 @@ def parse_arguments():
     return args
 
 
-def train(params, X_train, y_train, X_val, y_val, save_path, early_stopping_rounds, verbose=100):
+def train(params, X_train, y_train, X_val, y_val, save_path, early_stopping_rounds, log_file_path, verbose=100):
+    print("training..")
+    
+    file = open(log_file_path, 'w', encoding='utf-8')
     model = CatBoostRegressor(**params)
     model.fit(X_train, y_train,
               eval_set=[(X_train, y_train), (X_val, y_val)],
               early_stopping_rounds=early_stopping_rounds,
-              verbose=verbose
-              )
+              verbose=verbose,
+              log_cout=file)
     
+    file.close()
     model.save_model(save_path)
     return model
 
@@ -41,6 +45,7 @@ def main():
     file_name_prefix = f"{datetime.strftime(datetime.now(), '%Y-%m-%d_%H:%M')}_{args.pca_dim}"
     log_file_path = f"./logs/{file_name_prefix}_catboost.txt"
     
+    
     # load data
     X_train, y_train, X_test, X_scaler, y_scaler = preprocess(args.pca_dim, CFG)
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=CFG["random_seed"])
@@ -50,9 +55,11 @@ def main():
         X_val, y_val,
         save_path = os.path.join(args.save_path, f"{file_name_prefix}_model.cbm"),
         early_stopping_rounds=CFG["early_stopping_rounds"],
+        log_file_path=log_file_path,
         verbose=100)
     
-    with open(log_file_path, 'w') as f:
+    with open(log_file_path, 'a') as f:
+        f.write("\n\nparams")
         json.dump(CFG['model_params'], f)
 
 if __name__=="__main__":
