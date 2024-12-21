@@ -13,6 +13,7 @@ catboost_info/
 logs/
 model_params/
 submissions/
+ensembles/
 
 # Distribution / packaging
 .Python
